@@ -130,17 +130,12 @@ function get(url) {
 var LIST_BASE_URL = "https://www.googleapis.com/webfonts/v1/webfonts";
 function getFontList(apiKey, fontNames) {
     return __awaiter(this, void 0, void 0, function () {
-        var params, url, response, json, fontsOriginal;
+        var fontFamilyNames, url, response, json, fontsOriginal;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    params = new URLSearchParams();
-                    params.append("key", apiKey);
-                    fontNames.forEach(function (fontName) {
-                        var encodedFontName = fontName.replace(/ /g, "+");
-                        params.append("family", encodedFontName);
-                    });
-                    url = LIST_BASE_URL + "?" + params;
+                    fontFamilyNames = fontNames.map(function (fontName) { return fontName.replace(/ /g, "+"); });
+                    url = LIST_BASE_URL + "?key=" + apiKey + "&" + fontFamilyNames.join("|");
                     return [4, get(url)];
                 case 1:
                     response = _a.sent();
