@@ -77,9 +77,9 @@ export default class FontManager {
 	 * Fetch list of all fonts from Google Fonts API, filter it according to the class parameters and
 	 * save them to the font map
 	 */
-	public async init(): Promise<FontList> {
+	public async init(fontNames: string[]): Promise<FontList> {
 		// Get list of all fonts
-		const fonts = await getFontList(this.apiKey);
+		const fonts = await getFontList(this.apiKey, fontNames);
 
 		// Save desired fonts in the font map
 		for (let i = 0; i < fonts.length; i += 1) {
