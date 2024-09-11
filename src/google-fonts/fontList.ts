@@ -18,10 +18,7 @@ interface FontResponse extends Font {
 export default async function getFontList(apiKey: string, fontNames: string[]): Promise<Font[]> {
 	const fontFamilyNames = fontNames.map((fontName) => `family=${fontName.replace(/ /g, "+")}`);
 	const url = `${LIST_BASE_URL}?key=${apiKey}&${fontFamilyNames.join("&")}`;
-	const response = await get(url);
-
-	// Parse font list
-	const json = JSON.parse(response);
+	const json = await get(url);
 
 	// For each font:
 	// - Rename "subset" key to "script"

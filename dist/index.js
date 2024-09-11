@@ -136,7 +136,7 @@
     var LIST_BASE_URL = "https://www.googleapis.com/webfonts/v1/webfonts";
     function getFontList(apiKey, fontNames) {
         return __awaiter(this, void 0, void 0, function () {
-            var fontFamilyNames, url, response, json, fontsOriginal;
+            var fontFamilyNames, url, json, fontsOriginal;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -144,8 +144,7 @@
                         url = LIST_BASE_URL + "?key=" + apiKey + "&" + fontFamilyNames.join("&");
                         return [4, get(url)];
                     case 1:
-                        response = _a.sent();
-                        json = JSON.parse(response);
+                        json = _a.sent();
                         fontsOriginal = json.items;
                         return [2, fontsOriginal.map(function (fontOriginal) {
                                 var family = fontOriginal.family, subsets = fontOriginal.subsets, others = __rest(fontOriginal, ["family", "subsets"]);
