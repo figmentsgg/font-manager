@@ -134,8 +134,8 @@ function getFontList(apiKey, fontNames) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    fontFamilyNames = fontNames.map(function (fontName) { return fontName.replace(/ /g, "+"); });
-                    url = LIST_BASE_URL + "?key=" + apiKey + "&" + fontFamilyNames.join("|");
+                    fontFamilyNames = fontNames.map(function (fontName) { return "family=" + fontName.replace(/ /g, "+"); });
+                    url = LIST_BASE_URL + "?key=" + apiKey + "&" + fontFamilyNames.join("&");
                     return [4, get(url)];
                 case 1:
                     response = _a.sent();
