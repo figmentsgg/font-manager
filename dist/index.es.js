@@ -114,38 +114,34 @@ function validatePickerId(pickerId) {
 }
 
 function get(url) {
-    return new Promise(function (resolve, reject) {
-        var request = new XMLHttpRequest();
-        request.overrideMimeType("application/json");
-        request.open("GET", url, true);
-        request.onreadystatechange = function () {
-            if (request.readyState === 4) {
-                if (request.status !== 200) {
-                    reject(new Error("Response has status code " + request.status));
-                }
-                else {
-                    resolve(request.responseText);
-                }
-            }
-        };
-        request.send();
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then(function (response) {
+        if (!response.ok) {
+            throw new Error("Response has status code " + response.status);
+        }
+        return response.json();
     });
 }
 
 var LIST_BASE_URL = "https://www.googleapis.com/webfonts/v1/webfonts";
 function getFontList(apiKey, fontNames) {
     return __awaiter(this, void 0, void 0, function () {
-        var url, response, json, fontsOriginal;
+        var params, url, response, json, fontsOriginal;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    url = new URL(LIST_BASE_URL);
-                    url.searchParams.append("key", apiKey);
+                    params = new URLSearchParams();
+                    params.append("key", apiKey);
                     fontNames.forEach(function (fontName) {
                         var encodedFontName = fontName.replace(/ /g, "+");
-                        url.searchParams.append("family", encodedFontName);
+                        params.append("family", encodedFontName);
                     });
-                    return [4, get(url.href)];
+                    url = LIST_BASE_URL + "?" + params;
+                    return [4, get(url)];
                 case 1:
                     response = _a.sent();
                     json = JSON.parse(response);
