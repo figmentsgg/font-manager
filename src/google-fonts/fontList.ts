@@ -17,13 +17,16 @@ interface FontResponse extends Font {
  */
 export default async function getFontList(apiKey: string, fontNames: string[]): Promise<Font[]> {
 	// Request list of all Google Fonts, sorted by popularity
-	const url = new URL(LIST_BASE_URL);
-	url.searchParams.append("key", apiKey);
+	const params = new URLSearchParams();
+	params.append("key", apiKey);
+
 	fontNames.forEach((fontName) => {
 		const encodedFontName = fontName.replace(/ /g, "+");
-		url.searchParams.append("family", encodedFontName);
+		params.append("family", encodedFontName);
 	});
-	const response = await get(url.href);
+
+	const url = `${LIST_BASE_URL}?${params}`;
+	const response = await get(url);
 
 	// Parse font list
 	const json = JSON.parse(response);
