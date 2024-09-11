@@ -1,5 +1,5 @@
 {
-	"name": "@samuelmeuli/font-manager",
+	"name": "@figmentsgg/font-manager",
 	"version": "1.4.1",
 	"description": "Manages, downloads and applies Google Fonts for picker components",
 	"repository": "github:figmentsgg/font-manager",
