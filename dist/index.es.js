@@ -114,23 +114,28 @@ function validatePickerId(pickerId) {
 }
 
 function get(url) {
-    return fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then(function (response) {
-        if (!response.ok) {
-            throw new Error("Response has status code " + response.status);
-        }
-        return response.json();
+    return new Promise(function (resolve, reject) {
+        var request = new XMLHttpRequest();
+        request.overrideMimeType("application/json");
+        request.open("GET", url, true);
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status !== 200) {
+                    reject(new Error("Response has status code " + request.status));
+                }
+                else {
+                    resolve(request.responseText);
+                }
+            }
+        };
+        request.send();
     });
 }
 
 var LIST_BASE_URL = "https://www.googleapis.com/webfonts/v1/webfonts";
 function getFontList(apiKey, fontNames) {
     return __awaiter(this, void 0, void 0, function () {
-        var fontFamilyNames, url, json, fontsOriginal;
+        var fontFamilyNames, url, response, json, fontsOriginal;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -138,7 +143,8 @@ function getFontList(apiKey, fontNames) {
                     url = LIST_BASE_URL + "?key=" + apiKey + "&" + fontFamilyNames.join("&");
                     return [4, get(url)];
                 case 1:
-                    json = _a.sent();
+                    response = _a.sent();
+                    json = JSON.parse(response);
                     fontsOriginal = json.items;
                     return [2, fontsOriginal.map(function (fontOriginal) {
                             var family = fontOriginal.family, subsets = fontOriginal.subsets, others = __rest(fontOriginal, ["family", "subsets"]);
