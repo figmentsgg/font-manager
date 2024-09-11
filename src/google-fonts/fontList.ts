@@ -16,8 +16,8 @@ interface FontResponse extends Font {
  * Fetch the list of all available fonts from the Google Fonts API
  */
 export default async function getFontList(apiKey: string, fontNames: string[]): Promise<Font[]> {
-	const fontFamilyNames = fontNames.map((fontName) => fontName.replace(/ /g, "+"));
-	const url = `${LIST_BASE_URL}?key=${apiKey}&${fontFamilyNames.join("|")}`;
+	const fontFamilyNames = fontNames.map((fontName) => `family=${fontName.replace(/ /g, "+")}`);
+	const url = `${LIST_BASE_URL}?key=${apiKey}&${fontFamilyNames.join("&")}`;
 	const response = await get(url);
 
 	// Parse font list
